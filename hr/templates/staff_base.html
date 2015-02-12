@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>
+<html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>{% block title %}{% endblock %} - AutoTiming HR System</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+    <link rel="stylesheet" href="/static/css/normalize.css">
+    <link rel="stylesheet" href="/static/css/main.css">
+
+    <!-- Bootstrap -->
+    <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/bootstrap-theme.css">
+
+    <script src="/static/js/vendor/modernizr-2.6.2.min.js"></script>
+</head>
+<body>
+<!--[if lt IE 7]>
+<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+    your browser</a> to improve your experience.</p>
+<![endif]-->
+
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/staff/"><span style="font-weight:bold">A</span>uto<span
+                    style="font-weight:bold">T</span>iming HR System</a>
+        </div>
+        <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li class="{% block nav_class_home %}{% endblock %}"><a href="/staff/">首页</a></li>
+                <li class="{% block nav_class_punch %}{% endblock %}"><a href="/staff/punch/">办公考勤</a></li>
+                <li class="{% block nav_class_permission %}{% endblock %}"><a href="/staff/permission/">权限账号</a></li>
+                <!--
+                <li><a href="#">Wiki</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Leader 功能 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-header">TODO</li>
+                        <li><a href="#">TODO</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">HR 功能 <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-header">邮件</li>
+                        <li><a href="#">发送面试邀约</a></li>
+                        <li><a href="#">发送入职邀约</a></li>
+                        <li class="divider"></li>
+                        <li class="dropdown-header">员工档案</li>
+                        <li><a href="#">在职员工档案</a></li>
+                        <li><a href="#">面试邀约管理</a></li>
+                        <li><a href="#">入职邀约管理</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">帮助</a></li>
+                -->
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">{{ user.username }} <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <!--<li><a href="#">我的资料</a></li>-->
+                        <!--<li class="divider"></li>-->
+                        <li><a href="http://pd.autotiming.com/">返回 PD 平台</a></li>
+                        <li><a href="{% url 'passport_logout' %}">注销</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <!--/.nav-collapse -->
+    </div>
+</div>
+
+<div class="container">
+    {% block content %}{% endblock %}
+</div>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/static/js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
+<script src="/static/js/plugins.js"></script>
+<script src="/static/js/main.js"></script>
+<script src="/static/bootstrap/js/bootstrap.min.js"></script>
+
+<!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+<script>
+    (function (b, o, i, l, e, r) {
+        b.GoogleAnalyticsObject = l;
+        b[l] || (b[l] =
+                function () {
+                    (b[l].q = b[l].q || []).push(arguments)
+                });
+        b[l].l = +new Date;
+        e = o.createElement(i);
+        r = o.getElementsByTagName(i)[0];
+        e.src = '//www.google-analytics.com/analytics.js';
+        r.parentNode.insertBefore(e, r)
+    }(window, document, 'script', 'ga'));
+    ga('create', 'UA-XXXXX-X');
+    ga('send', 'pageview');
+</script>
+{% block js %}{% endblock %}
+
+</body>
+</html>

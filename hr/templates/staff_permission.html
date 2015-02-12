@@ -1,0 +1,33 @@
+{% extends "staff_base.html" %}
+
+{% block title %}权限账号{% endblock %}
+
+{% block nav_class_permission %}active{% endblock %}
+
+{% block content %}
+<p>下列是已为您已开通的访问权限、第三方账号，请妥善保存。</p>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>应用</th>
+        <th>用户名</th>
+        <th>密码</th>
+        <th>备忘</th>
+        <th>状态</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for p in my_permission %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ p.app_name }}</td>
+        <td>{{ p.username }}</td>
+        <td>{{ p.password }}</td>
+        <td>{{ p.note }}</td>
+        <td>{{ p.status }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

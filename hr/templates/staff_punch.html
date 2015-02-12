@@ -1,0 +1,143 @@
+{% extends "staff_base.html" %}
+
+{% block title %}办公考勤{% endblock %}
+
+{% block nav_class_punch %}active{% endblock %}
+
+{% block content %}
+<style>
+    #punch-buttons {
+        margin-bottom: 15px;
+    }
+</style>
+
+<div id="punch-buttons">
+    <button id="ponch-btn-on" type="button" class="btn btn-success"><span
+            class="glyphicon{% if btn_on_status %} glyphicon-check{% else %} glyphicon-unchecked{% endif %}"></span>
+        上班打卡
+    </button>
+    <button id="ponch-btn-off" type="button" class="btn btn-primary"><span
+            class="glyphicon{% if btn_off_status %} glyphicon-check{% else %} glyphicon-unchecked{% endif %}"></span>
+        下班打卡
+    </button>
+</div>
+
+<ul class="nav nav-tabs" id="punch-tabs">
+    <li class="active"><a href="#today" data-toggle="tab">今日记录</a></li>
+    <li><a href="#mine" data-toggle="tab">打卡历史</a></li>
+    <li><a href="#days_off" data-toggle="tab">调休时间</a></li>
+    <li><a href="#leave" data-toggle="tab">请假记录</a></li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane active" id="today">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>员工</th>
+                <th>上班打卡</th>
+                <th>下班打卡</th>
+                <th>部门</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for u in today_bunched %}
+            <tr>
+                <td>{% if u.user.first_name%}{{ u.user.first_name }}{% else%}{{ u.user }}{% endif%}</td>
+                <td>{% if u.first_on %}
+                    {{ u.first_on }}
+                    {% if forloop.counter == 1 %}<span class="label label-danger">TOP 1</span>{% endif %}
+                    {% if forloop.counter == 2 %}<span class="label label-warning">TOP 2</span>{% endif %}
+                    {% if forloop.counter == 3 %}<span class="label label-default">TOP 3</span>{% endif %}
+                    {% endif %}
+                </td>
+                <td>{{ u.end_off }}</td>
+                <td>{{ u.user.groups.all.0 }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="tab-pane" id="mine">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>时间</th>
+                <th>打卡类型</th>
+                <th>IP</th>
+                <th>状态</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for b in my_all_bunches %}
+            <tr>
+                <td>{{ b.touch_time }}</td>
+                <td>{% if b.type == 'ON' %}<span class="label label-success">上班</span>{% else %}<span
+                        class="label label-primary">下班</span>{% endif %}
+                </td>
+                <td>{{ b.ip }}</td>
+                <td>{{ b.status }}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="tab-pane" id="days_off">
+        <p></p>
+
+        <p>你当前的可用调休时间为 <strong>0</strong> 小时。</p>
+    </div>
+    <div class="tab-pane" id="leave">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>假别</th>
+                <th>时段</th>
+                <th>时长</th>
+                <th>事由</th>
+                <th>状态</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for d in my_all_day_off %}
+            <tr>
+                <td>调休假</td>
+                <td>{{ d.start_at }} - {{ d.end_at}}</td>
+                <td>{{ d.total_time}} 小时</td>
+                <td>{{ d.cause}}</td>
+                <td>{{ d.status}}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script>
+    $('#punch-tabs a').click(function (e) {
+        e.preventDefault()
+        $(this).tab('show')
+    })
+
+    $('#ponch-btn-on').click(function () {
+        $(this).children(":first").removeClass('glyphicon-unchecked').addClass('glyphicon-check');
+        $.get("{% url 'staff_punch_touch' %}?type=ON", function (data, status) {
+            alert('上班打卡成功 :)');
+            window.location.reload();
+        });
+    })
+
+    $('#ponch-btn-off').click(function () {
+        $(this).children(":first").removeClass('glyphicon-unchecked').addClass('glyphicon-check');
+        $.get("{% url 'staff_punch_touch' %}?type=OFF", function (data, status) {
+            alert('下班打卡成功 :)');
+            window.location.reload();
+        });
+    })
+</script>
+{% endblock %}
+

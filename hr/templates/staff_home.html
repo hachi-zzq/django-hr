@@ -1,0 +1,13 @@
+{% extends "staff_base.html" %}
+
+{% block title %}员工首页{% endblock %}
+
+{% block nav_class_home %}active{% endblock %}
+
+{% block content %}
+<h3>欢迎您 {{ user.first_name }}！</h3>
+<p>您好，欢迎访问 AutoTiming HR 平台。</p>
+<p>HR 平台与 PD 平台均使用同一账号登录，企业邮箱为单独账号。</p>
+<p>你的企业邮箱账号是 {{ user.email }}</p>
+
+{% endblock %}

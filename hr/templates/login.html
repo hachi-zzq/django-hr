@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}员工通行证{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        padding-top: 40px;
+        padding-bottom: 40px;
+        background-color: #eee;
+    }
+
+    .form-signin {
+        max-width: 330px;
+        padding: 15px;
+        margin: 0 auto;
+    }
+
+    .form-signin .form-signin-heading,
+    .form-signin .checkbox {
+        margin-bottom: 10px;
+    }
+
+    .form-signin .checkbox {
+        font-weight: normal;
+    }
+
+    .form-signin .form-control {
+        position: relative;
+        font-size: 16px;
+        height: auto;
+        padding: 10px;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+    .form-signin .form-control:focus {
+        z-index: 2;
+    }
+
+    .form-signin input[type="text"] {
+        margin-bottom: -1px;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .form-signin input[type="password"] {
+        margin-bottom: 10px;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+    }
+
+</style>
+<div class="container">
+    {% if login_status == 'FAILED' %}
+    <div class="alert alert-danger">
+        抱歉，用户名或密码错误，请重新输入。这里的账号密码与 <a href="http://pd.autotiming.com/" class="alert-link">PD 系统</a> 系统是一致的。
+    </div>
+    {% endif %}
+    {% if login_status == 'DISABLED' %}
+    <div class="alert alert-danger">
+        抱歉，该用户已被禁用了，系统无法让您登录，请联系 HR 部门。
+    </div>
+    {% endif %}
+    {% if form.errors %}
+    <div class="alert alert-danger">
+        form.errors
+    </div>
+    {% endif %}
+
+    <form class="form-signin" role="form" action="/passport/login/" method="post">
+        {% csrf_token %}
+        <h2 class="form-signin-heading">AutoTiming HR</h2>
+        <input name="username" type="text" class="form-control" placeholder="员工通行证(PD 账号)" required autofocus>
+        <input name="password" type="password" class="form-control" placeholder="密码" required>
+        <label class="checkbox">
+            <input name="remember_me" type="checkbox" value="remember_me" checked="checked"> 记住我
+        </label>
+        <input type="hidden" name="next" value="{{ next }}"/>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
+    </form>
+
+</div>
+{% endblock %}
